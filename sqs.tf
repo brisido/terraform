@@ -2,6 +2,7 @@
 resource "aws_sqs_queue" "queue" {
   for_each                   = local.sqs_queue
   name                       = each.value.name
+  fifo_queue                 = try(each.value.fifo_queue, false)
   delay_seconds              = try(each.value.delay_seconds, 0)
   max_message_size           = try(each.value.max_message_size, 262144)
   message_retention_seconds  = try(each.value.message_retention_seconds, 345600)
@@ -17,6 +18,7 @@ resource "aws_sqs_queue" "queue" {
 resource "aws_sqs_queue" "dlq" {
   for_each                   = local.sqs_queue
   name                       = replace(each.value.name, "queue", "dlq")
+  fifo_queue                 = try(each.value.fifo_queue, false)
   delay_seconds              = try(each.value.dlq.delay_seconds, 0)
   max_message_size           = try(each.value.dlq.max_message_size, 262144)
   message_retention_seconds  = try(each.value.dlq.message_retention_seconds, 1209600)

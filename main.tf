@@ -3,6 +3,10 @@ locals {
     sqs1 = {
       name = "fila-teste-a_queue"
     }
+    sqs1fifo = {
+      name       = "fila-teste-a_queue.fifo"
+      fifo_queue = true
+    }
     sqs2 = {
       name                       = "fila-teste-b_queue"
       delay_seconds              = 5
